@@ -1,0 +1,51 @@
+.img1{
+    width: 40%;
+    position: absolute;
+    top: 10%;
+    left: 10%;
+}
+
+.containerLanding{
+    height: 625px;
+    margin: 0;
+    padding: 0;
+    background-color: #262a10;
+}
+
+.containerLanding h1{
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 30px;
+    font-weight: 100;
+    width: 32%;
+    position: absolute;
+    display: flex;
+    top: 37%;
+    left: 50%;
+    color: #a9714b;
+    margin: 0px;
+    padding: 20px;
+}
+
+.btnLanding{
+  position: absolute;
+  width: 10%;
+  height: 7%;
+  top: 52%;
+  left: 59%;
+  background: #a9714b;
+  border: 2px solid #a9714b;
+  border-radius: 6px;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  text-align: center;
+  display: inline-block;
+}
+
+.btnLanding:hover{
+    background-color: #e8985e;
+    color: white;
+    text-decoration: none;
+}
