@@ -1,0 +1,182 @@
+h2{
+    font-family: 'Satisfy', cursive;
+    text-decoration: none;
+    margin-bottom: 2%;
+  }
+  
+  h3 {
+    font-family: 'Arimo', sans-serif;
+    text-decoration: none;
+    margin-bottom: 2%;
+  }
+  
+  h4 {
+    font-family: 'Arimo', sans-serif;
+    text-decoration: none;
+    margin-bottom: 2%;
+  }
+  
+  .cardContainer {
+    display: flex;
+    height: 200px;
+    width: 200px;
+    border-radius: 100px;
+    background: linear-gradient(121deg, #535925 13%, #838C3B 100%);
+    transition: all 500ms ease-in;
+    transition-delay: 1s;
+    margin: auto;
+    margin-top: 50px;
+  }
+  .cardContainer:hover {
+    width: 90%;
+    margin: 3%;
+    margin-top: 5%;
+    border-radius: 100px 100px 100px 100px;
+    transition: all 1s ease-out;
+  }
+  .cardContainer div * {
+    display: flex;
+    overflow: hidden;
+    text-overflow: hidden;
+    /* white-space: nowrap; */
+    width: 0;
+    height: auto;
+    transition: all 450ms ease-in;
+    transition-delay: 1s;
+  }
+  .cardContainer:hover div *{
+    display: flex;
+    /* visibility: visible; */
+    /* transition: all 1s ease-out; */
+    transition-delay: 500ms;
+    width: 80%;
+    height: auto;
+    /* flex-direction: column; */
+    /* justify-content: center; */
+    /* justify-items: center; */
+    /* align-content: left;
+    align-items: left; */
+  }
+  
+  /* .cardContainer:hover .textContainer .linkBtn{
+    justify-self: center !important;
+    margin-bottom: 5%;
+  } */
+  
+  .cardContainer .textContainer h2{
+    text-align: center !important;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    align-self: center;
+  }
+  
+  .cardContainer .textContainer .text {
+    margin-bottom: 0%;
+  }
+  
+  .cardContainer:hover .textContainer .text {
+    margin-bottom: 0%;
+    width: 100%;
+  }
+  
+  .cardContainer .textContainer .textTemper{
+    color: white;
+    text-align: left;
+    margin-right: auto;
+  }
+  
+  .cardContainer:hover .textContainer .textTemper{
+    color: white;
+    text-align: left;
+    margin-top: 0%;
+    margin-bottom: 3%;
+    width: 90%;
+  }
+  
+  /* .cardContainer .textContainer .textTemper2{
+    margin-top: 1%;
+    color: white;
+    text-align: left;
+  } */
+  
+  
+  .cardContainer .imageContainer, .cardContainer .imageContainer img{
+    height: 200px;
+    width: 200px;
+    padding-right: 10px;
+    border-radius: 100%;
+    flex-shrink: 0;
+    object-fit: cover;
+  }
+  
+  
+  .cardContainer .imageContainer img{
+    height: 180px;
+    width: 180px;
+    transition: none;
+    /* display: float; */
+    position: relative;
+    border: 10px solid white;
+    margin: 0 0 0 0; padding: 0 0 0 0;
+  }
+  /* .cardContainer .textContainer {
+    position: relative;
+    margin-right: 30%;
+    
+  } */
+  .cardContainer .textContainer .text{
+    max-width: 100%;
+    text-decoration: none;
+    /* max-height: 30px; */
+    color: white;
+    bottom: 5px;
+    display: flex;
+    /* justify-content: space-between; */
+    /* border-radius: 13px; */
+    text-align: left;
+  }
+  
+  /*----------------------Hover de boton en card sin hover----------------------*/
+  .cardContainer .btnInfo{
+    width: 130px;
+    height: 30px;
+    background: transparent;
+    color: #D9AA55;
+    border: 2px solid #D9AA55;
+    text-align: center;
+  }
+  /*-----------------------------Hover de boton en card con hover--------------*/
+  
+  .cardContainer:hover .btnInfo{
+    position: absolute;
+    width: 130px;
+    height: 30px;
+    background: transparent;
+    color: #D9AA55;
+    border: 2px solid #D9AA55;
+    border-radius: 6px;
+    justify-self: center;
+    justify-content: center;
+  
+    border: none;
+    color: white;
+    /* padding: 16px 32px; */
+    font-size: 1rem;
+    /* margin: 4px 2px; */
+    transition-duration: 0.4s;
+    cursor: pointer;
+    text-align: center;
+    /* text-decoration: none !important; */
+    display: inline-block;
+  }
+  
+  .cardContainer:hover .btnInfo:hover {
+    background-color: #D9AA55;
+    color: #535925;
+    text-decoration: none;
+    /* text-align: center !important; */
+  }
+  
+  .textContainer .linkBtn{
+    text-decoration: none !important;
+  }

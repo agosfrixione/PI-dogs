@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
 .img1{
     width: 40%;
     position: absolute;
@@ -13,14 +15,14 @@
 }
 
 .containerLanding h1{
-    font-family: 'Fredoka One', sans-serif;
-    font-size: 30px;
-    font-weight: 100;
-    width: 32%;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 35px;
+    width: 40%;
     position: absolute;
     display: flex;
-    top: 37%;
-    left: 50%;
+    top: 40%;
+    left: 46%;
     color: #a9714b;
     margin: 0px;
     padding: 20px;
@@ -30,13 +32,14 @@
   position: absolute;
   width: 10%;
   height: 7%;
-  top: 52%;
+  top: 55%;
   left: 59%;
   background: #a9714b;
   border: 2px solid #a9714b;
   border-radius: 6px;
   border: none;
   color: white;
+  font-family: 'Poppins', sans-serif;
   font-size: 1rem;
   transition-duration: 0.4s;
   cursor: pointer;

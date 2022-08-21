@@ -1,0 +1,24 @@
+.cards {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    /* justify-content: space-around; */
+    justify-content: center;
+    padding-bottom: 50px;
+}
+
+.cards .cardsMaped {
+    width: 50%;
+    justify-self: center;
+}
+
+.filter .select{
+    height: 30px;
+    border-radius: 30px;
+    color: #838C3B;
+}
+
+.filter .select option{
+    color: white;
+    background-color: #838C3B;
+}
