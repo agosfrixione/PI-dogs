@@ -17,7 +17,7 @@ export default function Form(){
         image:"",
         weightMin:"",
         weightMax:"",
-        heighthMin:"",
+        heightMin:"",
         heightMax: "",
         life_span:"",
         temperaments:[]
@@ -95,5 +95,165 @@ export default function Form(){
         return errors;
     }
 
+    let handleChange = (e) =>{
+        setDog({
+            ...dog,
+            [e.target.name] : e.target.value //Los [] son para establecer una variable como propiedad.
+        });
 
+        setFormError(validation(dog));
+    }
+
+    let handleSubmit = async (e) =>{
+        e.preventDefault()
+        setFormError(validation(dog))
+        
+        await axios.post("/dogs", dog)
+        console.log(dog);
+        setDog({
+            name:"",
+            image:"",
+            weightMin:"",
+            weightMax:"",
+            height:"",
+            life_span:"",
+            tempers:[]
+        }); //Reinicio el formulario
+        alert("La raza ya fué creada")
+    }
+
+    let handleTemperament = (e) =>{
+        setDog({
+            ...dog,
+            temperaments: [...new Set([...dog.temperaments, e.target.value])] //con el set se borran elementos repetidos.
+        })
+
+        console.log("Handle temperamentos:", dog.temperaments )
+    }
+
+    return(
+        <div className="formContainer">
+            <div className="textTitle">
+                <h2>Creat your own dog</h2>
+                <h3>Recordá que siempre es mejor adoptar que comprar, hay muchos pichichus que necesitan de nuestro amor y cariño</h3>
+            </div>
+            
+            <form className="form">
+                <div className="container">
+                    <label>Breed</label>
+                    <input name={'name'} value={dog.name}
+                    onChange={(e) => handleChange(e)}></input>
+                    {
+                        formError.name ? (<h4 className="error"><small>{formError.name}</small></h4>) : false
+                    }
+                </div>
+
+                <div className="container">
+                    <label>Imagen</label>
+                    <input  name={'image'} value={dog.image}
+                    onChange={(e) => handleChange(e)}></input>
+                    {
+                        formError.image ? (<h4 className="error"><small>{formError.image}</small></h4>) : false
+                    }
+                </div>
+
+                <div className="container">
+                    <label>Minimum weight <small>(Please enter a single number)</small></label>
+                    <input  name={'weightMin'} value={dog.weightMin}
+                    onChange={(e) => handleChange(e)}></input>
+                    {
+                        formError.weightMin ? (<h4 className="error"><small>{formError.weightMin}</small></h4>) : false
+                    }
+                </div>
+
+                <div className="container">
+                    <label>Maximum weight <small>(Please enter a single number)</small></label>
+                    <input name={'weightMax'} value={dog.weightMax}
+                    onChange={(e) => handleChange(e)}></input>
+                    <div className="errorContainer">
+                    {
+                        formError.weightMax ? (<h4 className="error"><small>{formError.weightMax}</small></h4>) : false
+                    }
+                    </div>
+                </div>
+
+                <div className="container">
+                    <label>Minimum height <small>(Please enter a single number)</small></label>
+                    <input name={'heightMin'} value={dog.heightMin}
+                    onChange={(e) => handleChange(e)}></input>
+                    {
+                        formError.heightMin ? (<h4 className="error"><small>{formError.heightMin}</small></h4>) : false
+                    }
+                </div>
+
+                <div className="container">
+                    <label>Maximum height <small>(Please enter a single number)</small></label>
+                    <input name={'heightMax'} value={dog.heightMax}
+                    onChange={(e) => handleChange(e)}></input>
+                    {
+                        formError.heightMax ? (<h4 className="error"><small>{formError.heightMax}</small></h4>) : false
+                    }
+                </div>
+
+                <div className="container">
+                    <label>Life span</label>
+                    <input name={'life_span'} value={dog.life_span}
+                    onChange={(e) => handleChange(e)}></input>
+                    {
+                        formError.life_span ? (<h4 className="error"><small>{formError.life_span}</small></h4>) : false
+                    }
+                </div>
+
+                <div className="container">
+                    <label>Temperament 1</label>
+                    <select name={'temperaments'}
+                      onChange={(e) => handleTemperament(e)}>
+                        <option value="selected" hidden >Choose a temperament</option>
+                       {
+                            temperamentsState?.map(t=>{
+                               return (
+                                   <option key={t.id} value={t.name}>{t.name}</option>
+                               );
+                            })
+                        }
+                     </select>
+                </div>
+
+                <div className="container">
+                    <label>Temperament 2</label>
+                    <select name={'temperaments'}
+                      onChange={(e) => handleTemperament(e)}>
+                      <option value="selected" hidden >Choose a temperament</option>
+                       {
+                            temperamentsState?.map(t=>{
+                               return (
+                                   <option key={t.id} value={t.name}>{t.name}</option>
+                               );
+                            })
+                        }
+                     </select>
+                </div>
+
+                <div className="container">
+                    <label>Temperament 3</label>
+                    <select name={'temperaments'}
+                      onChange={(e) => handleTemperament(e)}>
+                      <option value="selected" hidden >Choose a temperament</option>
+                       {
+                            temperamentsState?.map(t=>{
+                               return (
+                                   <option key={t.id} value={t.name}>{t.name}</option>
+                               );
+                            })
+                        }
+                     </select>
+                </div>
+
+                <div>
+                    <button className="btn" type="submit" disabled={isSubmit} id="btn" onClick={(e) => handleSubmit(e)}> Create dog </button>
+                </div>
+
+            </form>
+        </div>
+    )
 }

@@ -21,8 +21,46 @@ router.get('/dogs', async (req, res)=>{
         return {
             name: b.name,
             id: b.id,
-            height: b.height.metric,
-            weight: b.weight.metric,
+            heightMin: b.height.imperial.split(/\s*-\s*/)[0] && b.height.imperial.split(/\s*-\s*/)[0] !== 'NaN' ?
+            b.height.imperial.split(/\s*-\s*/)[0] :
+            (b.height.metric.split(/\s*-\s*/)[0] && b.height.metric.split(/\s*-\s*/)[0] !== 'NaN' ?
+                Math.round(b.height.metric.split(/\s*-\s*/)[0] / 2.205).toString() :
+                (b.height.imperial.split(/\s*-\s*/)[1] && b.height.imperial.split(/\s*-\s*/)[1] !== 'NaN' ?
+                    Math.round(b.height.imperial.split(/\s*-\s*/)[1] * 0.6).toString() :
+                    (b.height.metric.split(/\s*-\s*/)[1] && b.height.metric.split(/\s*-\s*/)[1] !== 'NaN' ?
+                        Math.round(b.height.imperial.split(/\s*-\s*/)[1] * 0.6 / 2.205).toString() :
+                        'No tenemos Altura Minima para ese Perro')))
+        ,
+            heightMax: b.height.imperial.split(/\s*-\s*/)[1] && b.height.imperial.split(/\s*-\s*/)[1] !== 'NaN' ?
+            b.height.imperial.split(/\s*-\s*/)[1] :
+            (b.height.metric.split(/\s*-\s*/)[1] && b.height.metric.split(/\s*-\s*/)[1] !== 'NaN' ?
+                Math.round(b.height.metric.split(/\s*-\s*/)[1] / 2.205).toString() :
+                (b.height.imperial.split(/\s*-\s*/)[0] && b.height.imperial.split(/\s*-\s*/)[0] !== 'NaN' ?
+                    Math.round(b.height.imperial.split(/\s*-\s*/)[0] * 1.1).toString() :
+                    (b.height.metric.split(/\s*-\s*/)[0] && b.height.metric.split(/\s*-\s*/)[0] !== 'NaN' ?
+                        Math.round(b.height.imperial.split(/\s*-\s*/)[0] * 1.1 / 2.205).toString() :
+                        'No tenemos Altura Maxima para ese Perro'))),
+                        weightMin: b.weight.imperial.split(/\s*-\s*/)[0] && b.weight.imperial.split(/\s*-\s*/)[0] !== 'NaN' ?
+                        b.weight.imperial.split(/\s*-\s*/)[0] :
+                        (b.weight.metric.split(/\s*-\s*/)[0] && b.weight.metric.split(/\s*-\s*/)[0] !== 'NaN' ?
+                            Math.round(b.weight.metric.split(/\s*-\s*/)[0] / 2.205).toString() :
+                            (b.weight.imperial.split(/\s*-\s*/)[1] && b.weight.imperial.split(/\s*-\s*/)[1] !== 'NaN' ?
+                                Math.round(b.weight.imperial.split(/\s*-\s*/)[1] * 0.6).toString() :
+                                (b.weight.metric.split(/\s*-\s*/)[1] && b.weight.metric.split(/\s*-\s*/)[1] !== 'NaN' ?
+                                    Math.round(b.weight.imperial.split(/\s*-\s*/)[1] * 0.6 / 2.205).toString() :
+                                    'No tenemos Peso Minimo para ese Perro')))
+                    ,
+            weightMax: b.weight.imperial.split(/\s*-\s*/)[1] && b.weight.imperial.split(/\s*-\s*/)[1] !== 'NaN' ?
+                        b.weight.imperial.split(/\s*-\s*/)[1] :
+                        (b.weight.metric.split(/\s*-\s*/)[1] && b.weight.metric.split(/\s*-\s*/)[1] !== 'NaN' ?
+                            Math.round(b.weight.imperial.split(/\s*-\s*/)[1] / 2.205).toString() :
+                            (b.weight.imperial.split(/\s*-\s*/)[0] && b.weight.imperial.split(/\s*-\s*/)[0] !== 'NaN' ?
+                                Math.round(b.weight.imperial.split(/\s*-\s*/)[0] * 1.1).toString() :
+                                (b.weight.metric.split(/\s*-\s*/)[0] && b.weight.metric.split(/\s*-\s*/)[0] !== 'NaN' ?
+                                    Math.round(b.weight.imperial.split(/\s*-\s*/)[0] * 1.1 / 2.205).toString() :
+                                    'No tenemos Peso Maximo para ese Perro')))
+                        ,
+            
             life_span: b.life_span,
             image: b.image.url,
             temperament: b.temperament
@@ -57,8 +95,45 @@ router.get('/dogs/:id', async (req, res)=> {
             return {
                 name: b.name,
                 id: b.id,
-                height: b.height.metric,
-                weight: b.weight.metric,
+            heightMin: b.height.metric.split(/\s*-\s*/)[0] && b.height.metric.split(/\s*-\s*/)[0] !== 'NaN' ?
+            b.height.metric.split(/\s*-\s*/)[0] :
+            (b.height.imperial.split(/\s*-\s*/)[0] && b.height.imperial.split(/\s*-\s*/)[0] !== 'NaN' ?
+                Math.round(b.height.imperial.split(/\s*-\s*/)[0] / 2.205).toString() :
+                (b.height.metric.split(/\s*-\s*/)[1] && b.height.metric.split(/\s*-\s*/)[1] !== 'NaN' ?
+                    Math.round(b.height.metric.split(/\s*-\s*/)[1] * 0.6).toString() :
+                    (b.height.imperial.split(/\s*-\s*/)[1] && b.height.imperial.split(/\s*-\s*/)[1] !== 'NaN' ?
+                        Math.round(b.height.metric.split(/\s*-\s*/)[1] * 0.6 / 2.205).toString() :
+                        'No tenemos Altura Minima para ese Perro')))
+        ,
+            heightMax: b.height.metric.split(/\s*-\s*/)[1] && b.height.metric.split(/\s*-\s*/)[1] !== 'NaN' ?
+            b.height.metric.split(/\s*-\s*/)[1] :
+            (b.height.imperial.split(/\s*-\s*/)[1] && b.height.imperial.split(/\s*-\s*/)[1] !== 'NaN' ?
+                Math.round(b.height.imperial.split(/\s*-\s*/)[1] / 2.205).toString() :
+                (b.height.metric.split(/\s*-\s*/)[0] && b.height.metric.split(/\s*-\s*/)[0] !== 'NaN' ?
+                    Math.round(b.height.metric.split(/\s*-\s*/)[0] * 1.1).toString() :
+                    (b.height.imperial.split(/\s*-\s*/)[0] && b.height.imperial.split(/\s*-\s*/)[0] !== 'NaN' ?
+                        Math.round(b.height.metric.split(/\s*-\s*/)[0] * 1.1 / 2.205).toString() :
+                        'No tenemos Altura Maxima para ese Perro'))),
+                        weightMin: b.weight.metric.split(/\s*-\s*/)[0] && b.weight.metric.split(/\s*-\s*/)[0] !== 'NaN' ?
+                        b.weight.metric.split(/\s*-\s*/)[0] :
+                        (b.weight.imperial.split(/\s*-\s*/)[0] && b.weight.imperial.split(/\s*-\s*/)[0] !== 'NaN' ?
+                            Math.round(b.weight.imperial.split(/\s*-\s*/)[0] / 2.205).toString() :
+                            (b.weight.metric.split(/\s*-\s*/)[1] && b.weight.metric.split(/\s*-\s*/)[1] !== 'NaN' ?
+                                Math.round(b.weight.metric.split(/\s*-\s*/)[1] * 0.6).toString() :
+                                (b.weight.imperial.split(/\s*-\s*/)[1] && b.weight.imperial.split(/\s*-\s*/)[1] !== 'NaN' ?
+                                    Math.round(b.weight.metric.split(/\s*-\s*/)[1] * 0.6 / 2.205).toString() :
+                                    'No tenemos Peso Minimo para ese Perro')))
+                    ,
+            weightMax: b.weight.metric.split(/\s*-\s*/)[1] && b.weight.metric.split(/\s*-\s*/)[1] !== 'NaN' ?
+                        b.weight.metric.split(/\s*-\s*/)[1] :
+                        (b.weight.imperial.split(/\s*-\s*/)[1] && b.weight.imperial.split(/\s*-\s*/)[1] !== 'NaN' ?
+                            Math.round(b.weight.imperial.split(/\s*-\s*/)[1] / 2.205).toString() :
+                            (b.weight.metric.split(/\s*-\s*/)[0] && b.weight.metric.split(/\s*-\s*/)[0] !== 'NaN' ?
+                                Math.round(b.weight.metric.split(/\s*-\s*/)[0] * 1.1).toString() :
+                                (b.weight.imperial.split(/\s*-\s*/)[0] && b.weight.imperial.split(/\s*-\s*/)[0] !== 'NaN' ?
+                                    Math.round(b.weight.metric.split(/\s*-\s*/)[0] * 1.1 / 2.205).toString() :
+                                    'No tenemos Peso Maximo para ese Perro')))
+                        ,
                 life_span: b.life_span,
                 image: b.image.url,
                 temperament: b.temperament
@@ -80,16 +155,16 @@ router.get('/dogs/:id', async (req, res)=> {
     }
 });
 
-router.post('/dogs', async (req, res)=>{
-    const {name, height, weight, life_span, image, temperament} = req.body;
-    if (!name || !height || !weight) {
+router.post('/dogs/create', async (req, res)=>{
+    const {name, heightMin, heighMax, weightMin, weightMax, life_span, image, temperament} = req.body;
+    if (!name || !heightMin || !heighMax || !weightMin || !weightMax) {
         return res.status(400).json({msg: "Falta información"})
     }
-    if(typeof name !== "string" || typeof height !== "string" || typeof weight !== "string"){
+    if(typeof name !== "string" || typeof heightMin !== "string" || typeof heighMax !== "string" || typeof weightMin !== "string" || typeof weightMax !== "string"){
         return res.status(400).json({msj: "Alguno de los datos no fue introducido correctamente"})
     }
     try {
-        const newDog = await Dog.create({ name, height, weight, life_span, image })
+        const newDog = await Dog.create({ name, heightMin, heighMax, weightMin, weightMax, life_span, image })
         let temper = await Temperament.findAll({
             where: { name: temperament }})
         

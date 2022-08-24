@@ -33,7 +33,7 @@ export default function rootReducer(state= initialState, action){
             }
         case CREATE_DOG:
             return {
-                
+                ...state,
             }
             case GET_BY_TEMPERAMENT:
             const breeds = state.createdDog;

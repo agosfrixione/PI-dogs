@@ -55,13 +55,17 @@ export function getName(name) {
     }
 }
 
-export const createDog = (obj)=> {
-    return async (dispatch)=> {
-        let response = await axios.post ('http://localhost:3001/dogs', obj);
+export const createDog = (payload)=> {
+    return async function (dispatch) {
+        try {
+        let response = await axios.post ('http://localhost:3001/dogs', payload);
         return dispatch ({
             type: CREATE_DOG,
             payload: response.data
         })
+    }catch(e) {
+            return e;
+        }
     }
 }
 
