@@ -2,26 +2,17 @@ import React, {useEffect, useState} from "react";
 import Card from "./Card";
 import {useDispatch, useSelector} from 'react-redux';
 import './Cards.css'
-import { filterDogByTemperament, filterByName, filterByOrigin, filterByWeight, getDogs, getTemperaments } from "../redux/actions";
-import Paginate from './Paginate';
+import { filterDogByTemperament, filterByName, filterByOrigin, filterByWeight, getDogs, getTemperaments, setPage } from "../redux/actions";
 import SearchBar from "./SearchBar";
 import LoadingAll from "./LoadingAll";
+import { useParams } from "react-router-dom";
 
-export default function Cards(){
-    let dogsState = useSelector(state=> state.dogs);
+export default function Cards({dogs}){
+    const params = useParams();
+    const [, setOrder] = useState('');
     let temperamentsState = useSelector(state => state.temperaments);
     const dispatch = useDispatch();
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const [dogsPerPage] = useState(8); // Aca saqué el set porque me tiraba un warning, esta bien?
-    const [setOrder] = useState(''); // Aca saqué el order por la misma razón 
-    const lastDogIndex = currentPage * dogsPerPage;
-    const firstDogIndex = lastDogIndex - dogsPerPage;
-    const currentDogs = dogsState.slice(firstDogIndex, lastDogIndex);
-
-    const paginate = (pageNum) => {
-        setCurrentPage(pageNum);
-    };
 
 
     useEffect(()=> {
@@ -32,33 +23,33 @@ export default function Cards(){
 
     function handleByTemperament(e){
         e.preventDefault()
-        setCurrentPage(1)
+        dispatch(setPage(1))
         dispatch(filterDogByTemperament(e.target.value))
     }
 
     function handleByOrigin(e){
         e.preventDefault()
-        setCurrentPage(1)
+        dispatch(setPage(1))
         dispatch(filterByOrigin(e.target.value))
     }
 
     function handleByName(e){
         e.preventDefault()
         dispatch(filterByName(e.target.value))
-        setCurrentPage(1)
+        dispatch(setPage(1))
         setOrder(`Ordenado ${e.target.value}`)
     }
 
     function handleByWeight(e){
         e.preventDefault()
         dispatch(filterByWeight(e.target.value))
-        setCurrentPage(1)
+        dispatch(setPage(1))
         setOrder(`Ordenado ${e.target.value}`)
     }
 
 
     return(
-        <div className="containter">
+        <div key={params.id} className="containter">
             <div className="filter">
                <select className="select" onChange={e=> handleByTemperament(e)}>
                    <option key={0} value='all'>All temperaments</option>
@@ -96,18 +87,11 @@ export default function Cards(){
 
 
             <div>
-                <Paginate 
-                   dogsPerPage={dogsPerPage}
-                   dogsState={dogsState.length}
-                   paginate={paginate}
-                />
                 <div className="cards">
                 {
-                currentDogs.length > 0 ? currentDogs.map(b=>
+                dogs.length > 0 ? dogs.map(b=>
                   <div className="cardsMaped">
-                     {/* <Link key={b.id}> */}
-                         <Card key={b.id} name={b.name} image={b.image} temperaments={b.temperaments} weightMin={b.weightMin} weightMax={b.weightMax} id={b.id}/>
-                     {/* </Link> */}
+                         <Card key={b.id} name={b.name} image={b.image} temperament={b.temperament} weightMin={b.weightMin} weightMax={b.weightMax} id={b.id}/>
                   </div>
                   ) : 
                   <div>

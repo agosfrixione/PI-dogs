@@ -1,17 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
 h2{
-    font-family: 'Satisfy', cursive;
+    font-family: 'Poppins', sans-serif;
     text-decoration: none;
     margin-bottom: 2%;
   }
   
   h3 {
-    font-family: 'Arimo', sans-serif;
+    font-family: 'Poppins', sans-serif;
     text-decoration: none;
     margin-bottom: 2%;
   }
   
   h4 {
-    font-family: 'Arimo', sans-serif;
+    font-family: 'Poppins', sans-serif;
+    font-size: small;
     text-decoration: none;
     margin-bottom: 2%;
   }
@@ -161,7 +164,7 @@ h2{
     border: none;
     color: white;
     /* padding: 16px 32px; */
-    font-size: 1rem;
+    font-size: 14px;
     /* margin: 4px 2px; */
     transition-duration: 0.4s;
     cursor: pointer;

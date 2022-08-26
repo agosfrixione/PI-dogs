@@ -1,11 +1,12 @@
-import { GET_DOGS , GET_TEMPERAMENTS, GET_BY_ID, GET_NAME, CREATE_DOG, GET_BY_TEMPERAMENT, GET_BY_NAME, GET_BY_ORIGIN, GET_BY_WEIGHT, CLEAN_DOG} from "./actions"; 
+import { GET_DOGS , GET_TEMPERAMENTS, GET_BY_ID, GET_NAME, CREATE_DOG, GET_BY_TEMPERAMENT, GET_BY_NAME, GET_BY_ORIGIN, GET_BY_WEIGHT, CLEAN_DOG, SET_PAGE} from "./actions"; 
 
 let initialState = {
     dogs: [],
     temperaments: [],
     createdDog: [],
     dogDetail: [],
-    loader: true
+    loader: true,
+    currentPage: 1
 };
 
 export default function rootReducer(state= initialState, action){
@@ -45,7 +46,7 @@ export default function rootReducer(state= initialState, action){
             })
             return {
                 ...state,
-                breed: filteredBreed
+                dogs: filteredBreed
             };
             case GET_BY_ORIGIN:
             const breedsByOrigin = state.createdDog;
@@ -68,7 +69,7 @@ export default function rootReducer(state= initialState, action){
             })
             return {
                 ...state,
-                breed: filteredBreedByName
+                dogs: filteredBreedByName
             };
             case GET_BY_WEIGHT:        
             const filteredByWeight = action.payload === 'less' ? 
@@ -88,13 +89,18 @@ export default function rootReducer(state= initialState, action){
             })
             return {
                 ...state,
-                breed: filteredByWeight
+                dogs: filteredByWeight
             };
             case CLEAN_DOG:
             return{
                 ...state,
-                breedDetail: []
+                dogDetail: []
             };
+            case SET_PAGE:
+            return {
+                ...state,
+                currentPage: action.payload
+            }
         default:
             return state;
     }

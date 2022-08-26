@@ -22,7 +22,7 @@ export default function Card({id, name, image, temperament, weightMin, weightMax
         }(temperament)}</h4>
                 <h4 className='text'>Weight: <br/> From {weightMin} to {weightMax} pounds</h4>
 
-                <Link to={'details/' + id } className='linkBtn'><button className='btnInfo'>More information</button></Link>
+                <Link to={'dogs/' + id } className='linkBtn'><button className='btnInfo'>More information</button></Link>
             </div>
         </div>
     );

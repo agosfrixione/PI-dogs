@@ -3,8 +3,10 @@ import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { getTemperaments } from "../redux/actions";
 import './Form.css';
+import { useParams } from "react-router-dom";
 
 export default function Form(){
+    const params = useParams();
     let temperamentsState = useSelector(state=> state.temperaments);
     const dispatch = useDispatch();
 
@@ -80,9 +82,9 @@ export default function Form(){
 
         if(validHeight(data.heightMax) === true) errors.heightMax = "The height is not valid";
 
-        if(parseInt(data.heightMin)>parseInt(data.heightMax)) errors.heightMin = "The minimum height cannot be greater than the maximum height"
+        if(parseInt(data.heightMin)<parseInt(data.heightMax)) errors.heightMin = "The minimum height cannot be greater than the maximum height"
         
-        if(parseInt(data.heightMin)>parseInt(data.heightMax)) errors.heightMax = "The minimum height cannot be greater than the maximum height"
+        if(parseInt(data.heightMax)>parseInt(data.heightMin)) errors.heightMin = "The maximum height cannot be minor than the minimum height"
 
         if(validLife(data.life_span) === true) errors.life_span = "The life span is not valid";
         
@@ -132,10 +134,9 @@ export default function Form(){
     }
 
     return(
-        <div className="formContainer">
+        <div key={params.id} className="formContainer">
             <div className="textTitle">
-                <h2>Creat your own dog</h2>
-                <h3>Recordá que siempre es mejor adoptar que comprar, hay muchos pichichus que necesitan de nuestro amor y cariño</h3>
+                <h2>Creat your own dog!</h2>
             </div>
             
             <form className="form">

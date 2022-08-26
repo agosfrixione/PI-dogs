@@ -12,8 +12,8 @@ const router = Router();
 // Ejemplo: router.use('/auth', authRouter);
 
 router.get('/dogs', async (req, res)=>{
-    const {name} = req.query;
     try {
+        const {name} = req.query;
         const breedsApi = await axios.get(`https://api.thedogapi.com/v1/breeds?api_key=${APIKEY}`);
     // fetch.get(`https://api.thedogapi.com/v1/breeds?api_key=${APIKEY}`).then(response => response.json())
 
@@ -155,7 +155,7 @@ router.get('/dogs/:id', async (req, res)=> {
     }
 });
 
-router.post('/dogs/create', async (req, res)=>{
+router.post('/create', async (req, res)=>{
     const {name, heightMin, heighMax, weightMin, weightMax, life_span, image, temperament} = req.body;
     if (!name || !heightMin || !heighMax || !weightMin || !weightMax) {
         return res.status(400).json({msg: "Falta información"})

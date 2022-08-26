@@ -26,6 +26,11 @@
     color: #535925;
 }
 
+.paginate li button:hover{
+    background-color: #D9AA55;
+    color: #535925;
+}
+
 .paginate li a {
     margin: 5px;
 }

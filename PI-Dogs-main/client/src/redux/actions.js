@@ -10,6 +10,7 @@ export const GET_BY_TEMPERAMENT = "GET_BY_TEMPERAMENT";
 export const GET_BY_ORIGIN = "GET_BY_ORIGIN";
 export const GET_BY_WEIGHT = "GET_BY_WEIGHT";
 export const CLEAN_DOG = "CLEAN_DOG"
+export const SET_PAGE = "SET_PAGE"
 
 
 export const getDogs = ()=> {
@@ -102,3 +103,9 @@ export function cleanDogs(){
         type: CLEAN_DOG
     }
   }
+
+export function setPage(page){
+    return async function (dispatch){
+        dispatch({type: SET_PAGE, payload: page})
+    }
+}

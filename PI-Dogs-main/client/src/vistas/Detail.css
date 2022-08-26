@@ -1,0 +1,48 @@
+.contentContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.headerContainer{
+    margin: 5%;
+    height: 300px;
+    justify-self: center;
+}
+
+.headerContainer h2{
+    margin: 10px;
+    margin-bottom: 20px;
+}
+
+.detailContainer{
+    margin: 5%;
+    margin-top: 5%;
+    background-color: white;
+    border-radius: 20px;
+    width: 400px;
+    padding-bottom: 10px;
+    color: #535925;
+}
+
+.detailContainer h4{
+    margin-bottom: 3px;
+}
+
+.detailContainer h5{
+    margin-top: 3px;
+    font-family: 'Arimo', sans-serif;
+}
+
+.allTempers{
+  font-family: 'Arimo', sans-serif;
+  font-size: 0.9rem;
+  list-style: none;
+  padding-left: 0;
+}
+
+.imageBreed{
+    height: 300px;
+    box-shadow: 2px 2px 5px #999;
+}
