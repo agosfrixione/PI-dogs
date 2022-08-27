@@ -1,10 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import './Card.css';
 
 export default function Card({id, name, image, temperament, weightMin, weightMax}){
+    const params = useParams();
     return (
-        <div className='cardContainer'>
+        <div key={params.id} className='cardContainer'>
             <div className='imageContainer'>
                 <img src={image} alt='not found'/>
             </div>

@@ -1,7 +1,9 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import './Paginate.css'
 
 export default function Paginate ({dogsPerPage, totalDogs, paginate, currentPage}) {
+    const params = useParams();
     const pageNum = [];
 
     for ( let i=1; i<=Math.ceil(totalDogs/dogsPerPage); i++) {
@@ -10,7 +12,7 @@ export default function Paginate ({dogsPerPage, totalDogs, paginate, currentPage
 
     //Del map salen los números que después se renderizan en el home para poder navegar a través de las páginas
     return (
-        <nav className="paginateContainer">
+        <nav key={params.id} className="paginateContainer">
             <ul className="paginate">
                 {
                     pageNum && pageNum.map(n => (

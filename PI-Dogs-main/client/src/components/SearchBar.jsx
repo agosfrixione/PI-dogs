@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { getName } from "../redux/actions";
 import { useDispatch } from 'react-redux';
 import './SearchBar.css';
+import { useParams } from "react-router-dom";
 
 export default function SearchBar(){
+    const params = useParams();
     const [search, setSearch] = useState('')
     let dispatch = useDispatch()
 
@@ -26,11 +28,7 @@ export default function SearchBar(){
     }
 
     return(
-    <div>
-        {/* <form onSubmit={onSubmit}>
-            <input type="text" onChange={onInputChange} value={search} onKeyPress={e=> e.key === 'Enter' && handleSubmit(e)}/>
-            <input type="submit" value="Buscar"/>
-        </form> */}
+    <div key={params.id}>
         <input
             type='text' 
             placeholder='Find your favorite breed'
