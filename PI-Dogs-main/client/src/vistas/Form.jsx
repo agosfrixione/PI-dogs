@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import { getTemperaments } from "../redux/actions";
+import { getTemperaments, postDog } from "../redux/actions";
 import './Form.css';
 import { useParams } from "react-router-dom";
 
@@ -82,9 +81,9 @@ export default function Form(){
 
         if(validHeight(data.heightMax) === true) errors.heightMax = "The height is not valid";
 
-        if(parseInt(data.heightMin)<parseInt(data.heightMax)) errors.heightMin = "The minimum height cannot be greater than the maximum height"
+        if(parseInt(data.highMin)>parseInt(data.highMax)) errors.heightMin = "The maximum height cannot be minor than the minimum height"
         
-        if(parseInt(data.heightMax)>parseInt(data.heightMin)) errors.heightMin = "The maximum height cannot be minor than the minimum height"
+        if(parseInt(data.highMin)>parseInt(data.highMax)) errors.heightMax = "The maximum height cannot be minor than the minimum height"
 
         if(validLife(data.life_span) === true) errors.life_span = "The life span is not valid";
         
@@ -109,17 +108,17 @@ export default function Form(){
     let handleSubmit = async (e) =>{
         e.preventDefault()
         setFormError(validation(dog))
-        
-        await axios.post("/dogs", dog)
+        dispatch(postDog(dog))
         console.log(dog);
         setDog({
             name:"",
             image:"",
             weightMin:"",
             weightMax:"",
-            height:"",
+            heightMin:"",
+            heightMax:"",
             life_span:"",
-            tempers:[]
+            temperaments:[]
         }); //Reinicio el formulario
         alert("La raza ya fué creada")
     }
@@ -130,7 +129,7 @@ export default function Form(){
             temperaments: [...new Set([...dog.temperaments, e.target.value])] //con el set se borran elementos repetidos.
         })
 
-        console.log("Handle temperamentos:", dog.temperaments )
+        console.log("Handle temperaments:", dog.temperaments )
     }
 
     return(
@@ -139,7 +138,7 @@ export default function Form(){
                 <h2>Creat your own dog!</h2>
             </div>
             
-            <form className="form">
+            <form className="form" onSubmit={(e) => handleSubmit(e)}>
                 <div className="container">
                     <label>Breed</label>
                     <input name={'name'} value={dog.name}
@@ -251,7 +250,7 @@ export default function Form(){
                 </div>
 
                 <div>
-                    <button className="btn" type="submit" disabled={isSubmit} id="btn" onClick={(e) => handleSubmit(e)}> Create dog </button>
+                    <button className="btn" type="submit" value="submit" id="btn" disabled={isSubmit}> Create dog </button>
                 </div>
 
             </form>

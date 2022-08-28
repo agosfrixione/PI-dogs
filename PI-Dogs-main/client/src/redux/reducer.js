@@ -1,4 +1,4 @@
-import { GET_DOGS , GET_TEMPERAMENTS, GET_BY_ID, GET_NAME, CREATE_DOG, GET_BY_TEMPERAMENT, GET_BY_NAME, GET_BY_ORIGIN, GET_BY_WEIGHT, CLEAN_DOG, SET_PAGE} from "./actions"; 
+import { GET_DOGS , GET_TEMPERAMENTS, GET_BY_ID, GET_NAME, GET_BY_TEMPERAMENT, GET_BY_NAME, GET_BY_ORIGIN, GET_BY_WEIGHT, CLEAN_DOG, SET_PAGE} from "./actions"; 
 
 let initialState = {
     dogs: [],
@@ -31,10 +31,6 @@ export default function rootReducer(state= initialState, action){
             return {
                 ...state,
                 dogs: action.payload
-            }
-        case CREATE_DOG:
-            return {
-                ...state,
             }
             case GET_BY_TEMPERAMENT:
             const breeds = state.createdDog;

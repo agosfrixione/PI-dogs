@@ -56,19 +56,16 @@ export function getName(name) {
     }
 }
 
-export const createDog = (payload)=> {
-    return async function (dispatch) {
-        try {
-        let response = await axios.post ('http://localhost:3001/dogs', payload);
-        return dispatch ({
-            type: CREATE_DOG,
-            payload: response.data
-        })
-    }catch(e) {
-            return e;
-        }
-    }
-}
+export const postDog = (payload) => {
+    return async () => {
+      try {
+        const createDog = await axios.post('http://localhost:3001/dogs', payload);
+        return createDog;
+      } catch (e) {
+        console.log(e);
+      }
+    };
+  };
 
 export const filterDogByTemperament = (payload)=>{
     return{

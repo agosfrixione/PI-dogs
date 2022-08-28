@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const axios = require('axios');
 const { Dog, Temperament } = require('../db.js');
-const { APIKEY } = process.env
+const { APIKEY } = process.env;
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
 
@@ -17,6 +17,8 @@ router.get('/dogs', async (req, res)=>{
         const breedsApi = await axios.get(`https://api.thedogapi.com/v1/breeds?api_key=${APIKEY}`);
     // fetch.get(`https://api.thedogapi.com/v1/breeds?api_key=${APIKEY}`).then(response => response.json())
 
+    // Esta función mapea todos los perros de la api y por cada uno me trae nombre, id, altura minima y maxima, peso minimo
+    // y máximo, esperanza de vida, imagen y temperamento. 
     const mapBreedsApi= breedsApi.data.map(b => {
         return {
             name: b.name,
@@ -40,7 +42,7 @@ router.get('/dogs', async (req, res)=>{
                     (b.height.metric.split(/\s*-\s*/)[0] && b.height.metric.split(/\s*-\s*/)[0] !== 'NaN' ?
                         Math.round(b.height.imperial.split(/\s*-\s*/)[0] * 1.1 / 2.205).toString() :
                         'No tenemos Altura Maxima para ese Perro'))),
-                        weightMin: b.weight.imperial.split(/\s*-\s*/)[0] && b.weight.imperial.split(/\s*-\s*/)[0] !== 'NaN' ?
+            weightMin: b.weight.imperial.split(/\s*-\s*/)[0] && b.weight.imperial.split(/\s*-\s*/)[0] !== 'NaN' ?
                         b.weight.imperial.split(/\s*-\s*/)[0] :
                         (b.weight.metric.split(/\s*-\s*/)[0] && b.weight.metric.split(/\s*-\s*/)[0] !== 'NaN' ?
                             Math.round(b.weight.metric.split(/\s*-\s*/)[0] / 2.205).toString() :
@@ -75,7 +77,7 @@ router.get('/dogs', async (req, res)=>{
         let breedExists = await allBreeds.filter(b=> b.name.toLowerCase().includes(name.toLowerCase()));
             if (breedExists.length>0) res.json(breedExists);
             if(breedExists.length<1) res.send([{
-                name: 'Perdon, la raza no esta en nuestra base de datos.', id: '', temperaments: 'Puede crearla en nuestro "Creador de Perros"', image: 'https://thumbs.dreamstime.com/b/perro-con-una-lupa-75331469.jpg'
+                name: 'Perdon, la raza no esta en nuestra base de datos.', id: '', temperament: 'Puede crearla en nuestro "Creador de Perros"', image: 'https://thumbs.dreamstime.com/b/perro-con-una-lupa-75331469.jpg'
             }]);
     }
     else res.json(allBreeds);
@@ -87,7 +89,7 @@ router.get('/dogs', async (req, res)=>{
 
 router.get('/dogs/:id', async (req, res)=> {
     const {id} = req.params;
-    if(!id) res.status(400).json({ msg: 'Missing ID'})
+    // if(!id) res.status(400).json({ msg: 'Missing ID'})
     try{
         const breedsApi = await axios.get(`https://api.thedogapi.com/v1/breeds?api_key=${APIKEY}`);
 
@@ -151,26 +153,32 @@ router.get('/dogs/:id', async (req, res)=> {
     }
         
     }catch(e){
-        console.log(e)
+        res.status(400).json({ msg: 'Missing ID'})
     }
 });
 
-router.post('/create', async (req, res)=>{
-    const {name, heightMin, heighMax, weightMin, weightMax, life_span, image, temperament} = req.body;
-    if (!name || !heightMin || !heighMax || !weightMin || !weightMax) {
+router.post('/dogs', async (req, res)=>{
+    const {name, heightMin, heightMax, weightMin, weightMax, life_span, image, temperament} = req.body;
+    if (!name || !heightMin || !heightMax || !weightMin || !weightMax) {
         return res.status(400).json({msg: "Falta información"})
     }
-    if(typeof name !== "string" || typeof heightMin !== "string" || typeof heighMax !== "string" || typeof weightMin !== "string" || typeof weightMax !== "string"){
-        return res.status(400).json({msj: "Alguno de los datos no fue introducido correctamente"})
+    if(typeof name !== "string" || typeof heightMin !== "string" || typeof heightMax !== "string" || typeof weightMin !== "string" || typeof weightMax !== "string"){
+        return res.status(400).json({msg: "Alguno de los datos no fue introducido correctamente"})
+    }
+    if(parseInt(heightMin)>parseInt(heightMax)){
+        return res.status(400).json({msg:'La autra mínima no puede ser mayor a la máxima'})
+    }
+    if(parseInt(weightMin)>parseInt(weightMax)){
+        return res.status(400).json({msg:'El peso mínimo no puede ser mayor al peso máximo'})
     }
     try {
-        const newDog = await Dog.create({ name, heightMin, heighMax, weightMin, weightMax, life_span, image })
+        const newDog = await Dog.create({ name, heightMin, heightMax, weightMin, weightMax, life_span, image })
         let temper = await Temperament.findAll({
             where: { name: temperament }})
         
-        await newDog.addTemperaments(temper);
+        await newDog.addTemperament(temper);
 
-        res.status(200).send("El perro fue creado correctamente");
+        res.status(200).send(newDog);
 
     }catch(e){
         console.log(e)
