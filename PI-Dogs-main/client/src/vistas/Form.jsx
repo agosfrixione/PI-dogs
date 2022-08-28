@@ -21,7 +21,7 @@ export default function Form(){
         heightMin:"",
         heightMax: "",
         life_span:"",
-        temperaments:[]
+        temperament:[]
     });
 
     const [formError, setFormError] = useState(true);
@@ -118,7 +118,7 @@ export default function Form(){
             heightMin:"",
             heightMax:"",
             life_span:"",
-            temperaments:[]
+            temperament:[]
         }); //Reinicio el formulario
         alert("La raza ya fué creada")
     }
@@ -126,10 +126,10 @@ export default function Form(){
     let handleTemperament = (e) =>{
         setDog({
             ...dog,
-            temperaments: [...new Set([...dog.temperaments, e.target.value])] //con el set se borran elementos repetidos.
+            temperament: [...new Set([...dog.temperament, e.target.value])] //con el set se borran elementos repetidos.
         })
 
-        console.log("Handle temperaments:", dog.temperaments )
+        console.log("Handle temperaments:", dog.temperament )
     }
 
     return(

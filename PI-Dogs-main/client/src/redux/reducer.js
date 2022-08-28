@@ -45,12 +45,16 @@ export default function rootReducer(state= initialState, action){
                 dogs: filteredBreed
             };
             case GET_BY_ORIGIN:
-            const breedsByOrigin = state.createdDog;
-            const filteredBreedByOrigin = action.payload === 'db' ? breedsByOrigin.filter(b => b.created) : breedsByOrigin.filter(b => !b.created);
-            return {
+            if(action.payload === 'db') {
+               return {
                 ...state,
-                dogs: action.payload === 'all' ? breedsByOrigin : filteredBreedByOrigin
-            };
+                dogs: state.createdDog.filter(b => b.id.length >= 36)
+            }
+            }else {
+                return {
+                    ...state,
+                    dogs: state.createdDog.filter(b => typeof(b.id) === 'number')}
+            }
             case GET_BY_NAME:
             const breedsName = state.createdDog;
             const filteredBreedByName = action.payload === 'A-Z' ? breedsName.sort(function (a,b){

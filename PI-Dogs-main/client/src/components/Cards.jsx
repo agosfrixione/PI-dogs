@@ -47,7 +47,7 @@ export default function Cards({dogs}){
         setOrder(`Ordenado ${e.target.value}`)
     }
 
-
+console.log(dogs)
     return(
         <div key={params.id} className="containter">
             <div className="filter">
