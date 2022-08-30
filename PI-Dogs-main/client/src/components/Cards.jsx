@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import Card from "./Card";
 import {useDispatch, useSelector} from 'react-redux';
 import './Cards.css'
-import { filterDogByTemperament, filterByName, filterByOrigin, filterByWeight, getDogs, getTemperaments, setPage } from "../redux/actions";
+import { filterByName, filterByOrigin, filterByWeight, getDogs, getTemperaments, setPage } from "../redux/actions";
 import SearchBar from "./SearchBar";
 import LoadingAll from "./LoadingAll";
 import { useParams } from "react-router-dom";
@@ -10,21 +10,20 @@ import { useParams } from "react-router-dom";
 export default function Cards({dogs}){
     const params = useParams();
     const [, setOrder] = useState('');
+    const [temper, Settemper] = useState('')
     let temperamentsState = useSelector(state => state.temperaments);
     const dispatch = useDispatch();
 
 
 
     useEffect(()=> {
-        dispatch(getDogs())
+        dispatch(getDogs(temper))
         dispatch(getTemperaments())
-    }, [dispatch]);
+    }, [dispatch, temper]);
 
 
-    function handleByTemperament(e){
-        e.preventDefault()
-        dispatch(setPage(1))
-        dispatch(filterDogByTemperament(e.target.value))
+    function handleOnChange(e){
+        Settemper(e.target.value)
     }
 
     function handleByOrigin(e){
@@ -51,10 +50,11 @@ console.log(dogs)
     return(
         <div key={params.id} className="containter">
             <div className="filter">
-               <select className="select" onChange={e=> handleByTemperament(e)}>
+               <select className="select" onChange={e=> handleOnChange(e)}>
                    <option key={0} value='all'>All temperaments</option>
                    {
                        temperamentsState?.map(t=>{
+                        // console.log(t.name)
                            return (
                                <option key={t.id} value={t.name}>{t.name}</option>
                            );

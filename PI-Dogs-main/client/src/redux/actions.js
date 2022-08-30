@@ -13,13 +13,20 @@ export const CLEAN_DOG = "CLEAN_DOG"
 export const SET_PAGE = "SET_PAGE"
 
 
-export const getDogs = ()=> {
+export const getDogs = (temper)=> {
     return async (dispatch) => {
         let response = await axios.get('http://localhost:3001/dogs');
-        dispatch ({
-            type: GET_DOGS,
-            payload: response.data
-        })
+        if (temper) {
+            dispatch ({
+                type: GET_DOGS,
+                payload: response.data.filter((t)=> t.temperament && t.temperament.includes(temper))
+            })
+        } else {
+            dispatch ({
+                type: GET_DOGS,
+                payload: response.data
+            })
+        }
     }
 }
 

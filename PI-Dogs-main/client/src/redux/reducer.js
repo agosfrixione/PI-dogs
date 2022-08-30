@@ -33,28 +33,26 @@ export default function rootReducer(state= initialState, action){
                 dogs: action.payload
             }
             case GET_BY_TEMPERAMENT:
-            const breeds = state.createdDog;
-            const filteredBreed = action.payload ==='all' ? breeds : breeds.filter(b =>{
-                if(typeof b.temperaments === 'string'){
-                    return b.temperaments.includes(action.payload);
-                }
-                return true;
-            })
-            return {
+                return {
                 ...state,
-                dogs: filteredBreed
-            };
+                dogs: action.payload,
+            }
             case GET_BY_ORIGIN:
             if(action.payload === 'db') {
                return {
                 ...state,
                 dogs: state.createdDog.filter(b => b.id.length >= 36)
             }
-            }else {
+            }else if (action.payload === 'api') {
                 return {
                     ...state,
                     dogs: state.createdDog.filter(b => typeof(b.id) === 'number')}
-            }
+            }else{
+                return {
+                    ...state,
+                    dogs: state.createdDog,
+                }
+            };
             case GET_BY_NAME:
             const breedsName = state.createdDog;
             const filteredBreedByName = action.payload === 'A-Z' ? breedsName.sort(function (a,b){

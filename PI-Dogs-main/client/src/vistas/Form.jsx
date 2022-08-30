@@ -24,7 +24,7 @@ export default function Form(){
         temperament:[]
     });
 
-    const [formError, setFormError] = useState(true);
+    const [formError, setFormError] = useState({name:false, weightMin:false, weightMax:false, heightMin:false, heightMax:false, life_span:false});
 
     const [isSubmit, setisSubmit] = useState(true);
 
@@ -87,7 +87,7 @@ export default function Form(){
 
         if(validLife(data.life_span) === true) errors.life_span = "The life span is not valid";
         
-        if(longLife(data.life_span) === true) errors.life_span = "Nos gustaría que sean eternos pero debemos disfrutarlos mientras estén con nosotors";
+        if(longLife(data.life_span) === true) errors.life_span = "We would love that they stay with us forever but sadly we must enjoy them while they're here";
 
         if ((Object.keys(errors).length) === 0){
             setisSubmit(false)
