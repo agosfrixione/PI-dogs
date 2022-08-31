@@ -1,28 +1,30 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { cleanDogs, getByID } from "../redux/actions";
 import LoadingAll from "../components/LoadingAll";
-import './Detail.css'
+import './Detail.css';
+
 
 export default function Detail(){
 
+    // const history = useHistory();
     const params = useParams();
     const dispatch = useDispatch();
     let actualDog = useSelector(state => state.dogDetail);
 
     //Llamo a las razas con el useEffect
     useEffect(()=>{
-        dispatch(cleanDogs())
         dispatch(getByID(params.id))
     }, [dispatch, params.id]);
-    
+
 
     return (
         <div>
         {
-            actualDog.length > 0 ?
+            actualDog[0] ?
             <div key={params.id} className="fullContainer">
+                <Link to= '/home' onClick= {(e)=> dispatch(cleanDogs)}>Atras</Link>
                 <h2 className="title">Breed: {actualDog[0]?.name}</h2>
                 <div className="contentContainer">
                     <div className="headerContainer">
@@ -31,12 +33,8 @@ export default function Detail(){
                     <div className="detailContainer">
                          <h4 className="descriptionText">Temperaments:</h4>
                             <ul className="allTempers">
-                            {actualDog[0].created ?
+                            {actualDog[0].temperament ?
                             actualDog[0].temperament.map(e => {
-                                return <li key={e.name}><label>{e.name}</label></li>
-                            }) :
-                            actualDog[0].temperament ?
-                            actualDog[0].temperament.split(', ').map(e => {
                                 return <li key={e}><label>{e}</label></li>
                             }) :
                             'Esta raza no posee temperamentos'

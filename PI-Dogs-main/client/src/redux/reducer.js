@@ -1,4 +1,4 @@
-import { GET_DOGS , GET_TEMPERAMENTS, GET_BY_ID, GET_NAME, GET_BY_TEMPERAMENT, GET_BY_NAME, GET_BY_ORIGIN, GET_BY_WEIGHT, CLEAN_DOG, SET_PAGE} from "./actions"; 
+import { GET_DOGS , GET_TEMPERAMENTS, GET_BY_ID, GET_NAME, GET_BY_TEMPERAMENT, GET_BY_NAME, GET_BY_ORIGIN, GET_BY_WEIGHT, CLEAN_DOG, SET_PAGE } from "./actions"; 
 
 let initialState = {
     dogs: [],
@@ -30,69 +30,50 @@ export default function rootReducer(state= initialState, action){
         case GET_NAME:
             return {
                 ...state,
-                dogs: action.payload
+                createdDog: action.payload
             }
             case GET_BY_TEMPERAMENT:
                 return {
                 ...state,
-                dogs: action.payload,
+                createdDog: [...state.dogs].filter((t)=> t.temperament && t.temperament.includes(action.payload)),
             }
             case GET_BY_ORIGIN:
-            if(action.payload === 'db') {
-               return {
-                ...state,
-                dogs: state.createdDog.filter(b => b.id.length >= 36)
-            }
-            }else if (action.payload === 'api') {
                 return {
                     ...state,
-                    dogs: state.createdDog.filter(b => typeof(b.id) === 'number')}
-            }else{
-                return {
-                    ...state,
-                    dogs: state.createdDog,
+                    createdDog: action.payload,
                 }
-            };
             case GET_BY_NAME:
-            const breedsName = state.createdDog;
-            const filteredBreedByName = action.payload === 'A-Z' ? breedsName.sort(function (a,b){
-                if(a.name>b.name) return 1;
+            const filteredBreedByName = action.payload === 'A-Z' ? [...state.createdDog].sort(function (a,b){
+                if(a.name.toLowerCase()>b.name.toLowerCase()) return 1;
                 if(a.name<b.name) return -1;
                 else return 0;
             }) :
-            breedsName.sort(function (a,b){
-                if(a.name>b.name) return -1;
-                if(a.name<b.name) return 1;
+            [...state.createdDog].sort(function (a,b){
+                if(a.name.toLowerCase()>b.name.toLowerCase()) return -1;
+                if(a.name.toLowerCase()<b.name.toLowerCase()) return 1;
                 else return 0;
             })
             return {
                 ...state,
-                dogs: filteredBreedByName
+                createdDog: [...filteredBreedByName]
             };
             case GET_BY_WEIGHT:        
             const filteredByWeight = action.payload === 'less' ? 
-            state.createdDog.sort(function(a,b){
-                const itemA = parseInt(a.weightMin);
-                const itemB = parseInt(b.weightMin);
-                console.log(itemA);
-                console.log(itemB);
-                return itemA - itemB;
-            }) : 
-             state.createdDog.sort(function(a,b){
-                const itemA = parseInt(a.weightMin);
-                const itemB = parseInt(b.weightMin);
-                console.log(itemA);
-                console.log(itemB);
-                return itemB - itemA;
+            [...state.createdDog].sort(function (a,b){
+                return parseInt(a.weightMin) - parseInt(b.weightMin)
+            })
+             : 
+             [...state.createdDog].sort(function(a,b){
+                return parseInt(b.weightMin) - parseInt(a.weightMin)
             })
             return {
                 ...state,
-                dogs: filteredByWeight
+                createdDog: filteredByWeight
             };
             case CLEAN_DOG:
             return{
                 ...state,
-                dogDetail: []
+                dogDetail: action.payload
             };
             case SET_PAGE:
             return {

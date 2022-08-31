@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import Card from "./Card";
 import {useDispatch, useSelector} from 'react-redux';
 import './Cards.css'
-import { filterByName, filterByOrigin, filterByWeight, getDogs, getTemperaments, setPage } from "../redux/actions";
+import { filterByName, filterByOrigin, filterByWeight, filterDogByTemperament, getDogs, getTemperaments, setPage } from "../redux/actions";
 import SearchBar from "./SearchBar";
 import LoadingAll from "./LoadingAll";
 import { useParams } from "react-router-dom";
@@ -10,26 +10,28 @@ import { useParams } from "react-router-dom";
 export default function Cards({dogs}){
     const params = useParams();
     const [, setOrder] = useState('');
-    const [temper, Settemper] = useState('')
+    // const [temper, Settemper] = useState('');
+    const [origin, Setorigin] = useState('');
     let temperamentsState = useSelector(state => state.temperaments);
     const dispatch = useDispatch();
 
 
-
     useEffect(()=> {
-        dispatch(getDogs(temper))
+        dispatch(getDogs())
+        dispatch(filterByOrigin(origin))
         dispatch(getTemperaments())
-    }, [dispatch, temper]);
+    }, [dispatch, origin]);
 
 
-    function handleOnChange(e){
-        Settemper(e.target.value)
+    function handleByTemperament(e){
+        // Settemper(e.target.value)
+        e.preventDefault()
+        dispatch(filterDogByTemperament(e.target.value))
+        dispatch(setPage(1))
     }
 
     function handleByOrigin(e){
-        e.preventDefault()
-        dispatch(setPage(1))
-        dispatch(filterByOrigin(e.target.value))
+        Setorigin(e.target.value)
     }
 
     function handleByName(e){
@@ -50,7 +52,7 @@ console.log(dogs)
     return(
         <div key={params.id} className="containter">
             <div className="filter">
-               <select className="select" onChange={e=> handleOnChange(e)}>
+               <select className="select" onChange={e=> handleByTemperament(e)}>
                    <option key={0} value='all'>All temperaments</option>
                    {
                        temperamentsState?.map(t=>{

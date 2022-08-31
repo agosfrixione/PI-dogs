@@ -11,24 +11,18 @@ export const GET_BY_ORIGIN = "GET_BY_ORIGIN";
 export const GET_BY_WEIGHT = "GET_BY_WEIGHT";
 export const CLEAN_DOG = "CLEAN_DOG"
 export const SET_PAGE = "SET_PAGE"
+export const DELETE_DOG = "DELETE_DOG"
 
 
-export const getDogs = (temper)=> {
+export const getDogs = ()=> {
     return async (dispatch) => {
         let response = await axios.get('http://localhost:3001/dogs');
-        if (temper) {
-            dispatch ({
-                type: GET_DOGS,
-                payload: response.data.filter((t)=> t.temperament && t.temperament.includes(temper))
-            })
-        } else {
             dispatch ({
                 type: GET_DOGS,
                 payload: response.data
             })
         }
     }
-}
 
 export const getTemperaments = ()=> {
     return async (dispatch)=> {
@@ -81,30 +75,48 @@ export const filterDogByTemperament = (payload)=>{
     }
 }
 
-export const filterByOrigin = (payload)=>{
-    return {
-        type: GET_BY_ORIGIN,
-        payload
+export const filterByOrigin = (origin)=>{
+    return async (dispatch) => {
+        let response = await axios.get('http://localhost:3001/dogs');
+        if (origin === 'db') {
+            dispatch ({
+                type: GET_BY_ORIGIN,
+                payload: response.data.filter(b => b.id.length >= 36)
+            })
+           }else if (origin === 'api'){
+            dispatch ({
+                type: GET_BY_ORIGIN,
+                payload: response.data.filter(b => typeof(b.id) === 'number')})
+            }else {
+            dispatch ({
+                type: GET_BY_ORIGIN,
+                payload: response.data})
+            }
     }
 }
 
-export const filterByName = (payload)=>{
-    return {
+export const filterByName = (order)=>{
+    return function (dispatch){
+        dispatch ({
         type: GET_BY_NAME,
-        payload
+        payload: order
+        })
     }
 }
 
-export const filterByWeight = (payload)=>{
-    return {
+export const filterByWeight = (order)=>{
+    return function (dispatch){
+        dispatch ({
         type: GET_BY_WEIGHT,
-        payload
+        payload: order
+        })
     }
 }
 
 export function cleanDogs(){
     return{
-        type: CLEAN_DOG
+        type: CLEAN_DOG,
+        payload: []
     }
   }
 

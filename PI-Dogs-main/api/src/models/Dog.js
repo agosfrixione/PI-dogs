@@ -13,6 +13,7 @@ module.exports = (sequelize) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
     heightMin: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -41,7 +42,4 @@ module.exports = (sequelize) => {
       type: DataTypes.BOOLEAN,
       defaultValue: true
     }
-    },
-  }
-); 
-};
+    })}

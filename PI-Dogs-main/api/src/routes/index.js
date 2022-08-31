@@ -23,18 +23,20 @@ router.get('/dogs', async (req, res)=>{
         return {
             name: b.name,
             id: b.id,
-            heightMin: parseInt(b.height.metric.slice(0, 2).trim()),
-            heightMax: parseInt(b.height.metric.slice(4).trim()),
+            heightMin: parseInt(b.height.imperial.slice(0, 2).trim()),
+            heightMax: parseInt(b.height.imperial.slice(4).trim()),
             weightMin: parseInt(b.weight.imperial.slice(0, 2).trim()),
-            weightMax: parseInt(b.weight.metric.slice(4).trim()),
+            weightMax: parseInt(b.weight.imperial.slice(4).trim()),
             life_span: b.life_span,
             image: b.image.url,
-            temperament: b.temperament
+            temperament: b.temperament? b.temperament.split(', ') : []
         }
     })
 
-    const dbBreeds = await Dog.findAll({include: [{model: Temperament , through: { attributes: [] }}]});
-    const mapDBbreeds = dbBreeds.map(d=> { let tempsString = [];
+    const dbBreeds = await Dog.findAll({include: Temperament });
+    let tempsString = [];
+    const mapDBbreeds = dbBreeds.map(d=> {
+        d = d.toJSON()
         d.temperaments.map((temp) => {
         tempsString.push(temp.name);
         });
@@ -48,7 +50,7 @@ router.get('/dogs', async (req, res)=>{
             life_span: d.life_span,
             image: d.image,
             created: d.created,
-            temperament: d.tempsString
+            temperament: tempsString
         }
     })
 
@@ -75,13 +77,14 @@ router.get('/dogs/:id', async (req, res)=> {
         const breedsApi = await axios.get(`https://api.thedogapi.com/v1/breeds?api_key=${APIKEY}`);
 
         const mapBreedsApi= breedsApi.data.map(b => {
+
             return {
                 name: b.name,
                 id: b.id,
-                heightMin: parseInt(b.height.metric.slice(0, 2).trim()),
-                heightMax: parseInt(b.height.metric.slice(4).trim()),
+                heightMin: parseInt(b.height.imperial.slice(0, 2).trim()),
+                heightMax: parseInt(b.height.imperial.slice(4).trim()),
                 weightMin: parseInt(b.weight.imperial.slice(0, 2).trim()),
-                weightMax: parseInt(b.weight.metric.slice(4).trim()),
+                weightMax: parseInt(b.weight.imperial.slice(4).trim()),
                 life_span: b.life_span,
                 image: b.image.url,
                 temperament: (b.temperament ? b.temperament.split(",") : ["n/a"]).map((b)=> b.trim())
@@ -89,11 +92,15 @@ router.get('/dogs/:id', async (req, res)=> {
         });
 
         
-    const dbBreeds = await Dog.findAll({include: [{model: Temperament , through: { attributes: [] }}]});
-    const mapDBbreeds= await dbBreeds.map(d=> {
+    const dbBreeds = await Dog.findAll({include: Temperament });
+    const mapDBbreeds = dbBreeds.map(d=> { let tempsString = [];
+        d.temperaments.map((temp) => {
+            console.log(temp.name)
+        tempsString.push(temp.name);
+        });
         return {
-            id: d.id,
             name: d.name,
+            id: d.id,
             heightMin: d.heightMin,
             heightMax: d.heightMax,
             weightMin: d.weightMin,
@@ -101,10 +108,12 @@ router.get('/dogs/:id', async (req, res)=> {
             life_span: d.life_span,
             image: d.image,
             created: d.created,
-            temperament: d.temperaments.map(t=> {t.name})
-    }
-})
+            temperament: tempsString
+        }
+    })
+
     const allBreeds = [...mapBreedsApi, ...mapDBbreeds];
+
 
     if(id) {
         const dog = await allBreeds.filter((d) => d.id == id);
@@ -117,7 +126,8 @@ router.get('/dogs/:id', async (req, res)=> {
 });
 
 router.post('/dogs', async (req, res)=>{
-    const {name, heightMin, heightMax, weightMin, weightMax, life_span, image, temperament} = req.body;
+    const {name, heightMin, heightMax, weightMin, weightMax, life_span, temperament} = req.body;
+    let {image} = req.body;
     if (!name || !heightMin || !heightMax || !weightMin || !weightMax) {
         return res.status(400).json({msg: "Falta información"})
     }
@@ -131,12 +141,14 @@ router.post('/dogs', async (req, res)=>{
         return res.status(400).json({msg:'El peso mínimo no puede ser mayor al peso máximo'})
     }
     try {
-        const newDog = await Dog.create({ name: name, heightMin: heightMin , heightMax: heightMax, weightMin: weightMin, weightMax: weightMax, life_span: life_span, image: image })
+        if (image === '' || !image) {
+            image = 'https://st2.depositphotos.com/2166845/5890/i/450/depositphotos_58906929-stock-photo-cairn-terrier-puppy.jpg'
+        } 
+        const newDog = await Dog.create({ name, heightMin , heightMax, weightMin, weightMax, life_span, image })
         let temper = await Temperament.findAll({
             where: { name: temperament }})
         
         await newDog.addTemperament(temper);
-
         res.status(200).send(newDog);
 
     }catch(e){

@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom";
 
 export default function Home (){
     const params = useParams();
-    let dogsState = useSelector(state=> state.dogs);
+    let dogsState = useSelector(state=> state.createdDog);
     let currentPage = useSelector(state=> state.currentPage);
     const [dogsPerPage] = useState(8);
     const lastDogIndex = currentPage * dogsPerPage;
